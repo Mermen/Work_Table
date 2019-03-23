@@ -18,7 +18,6 @@ struct Str_Num {
 	int year;
 	int pasport;
 	int money;
-
 	Str_Num* next = NULL;
 	Str_Num* prev = NULL;
 	Str_Num* right = NULL;
@@ -307,6 +306,5 @@ int main() {
 	create_table(name_file_tmp, name_table_tmp + '2', &start_tables, &end_tables);
 	delete_table(name_table_tmp + '1', &start_tables, &end_tables);
 	sort_table(name_table_tmp + '2', &start_tables, &end_tables, 1);
-
 	return 0;
 }
