@@ -11,18 +11,39 @@
 struct Str_Num {
 	std::string Table_name;
 	int Num;
-	int ID;
+	std::string ID;
 	std::string surname;
 	std::string name;
 	std::string second_name;
-	int year;
+	std::string year;
 	int pasport;
-	int money;
+	std::string money;
 	Str_Num* next = NULL;
 	Str_Num* prev = NULL;
 	Str_Num* right = NULL;
 
 };
+
+std::string return_Str_Num(Str_Num *c, int n) {
+	switch (n)
+	{
+	case 1: {
+		return c->ID;
+	}
+	case 2: {
+		std::string data;
+		data = c->surname;
+		std::transform(data.begin(), data.end(), data.begin(), std::tolower);
+		return data;
+	}
+	case 3: {
+		return c->year;
+	}
+	case 4: {
+		return c->money;
+	}
+	}
+}
 
 void create_table(std::string file_name, std::string Table_name, Str_Num **start, Str_Num **end) {
 	file_name.push_back('.');
@@ -129,10 +150,9 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	Str_Num* r = new Str_Num();
 	Str_Num* left = new Str_Num();
 	Str_Num* right = new Str_Num();
-	int mid_ID;
+	std::string mid_data;
 	std::string mid_str;
 	int mid_num;
-
 	tmp_start = *start;
 	tmp_start_prev = *start;
 	while (tmp_start->Table_name != Table_name) {
@@ -158,138 +178,175 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	{
 		tmp_end = tmp_end->next;
 	}
-	switch (n)
-	{
-	case 1: {
-		std::stack <Str_Num*> st_table;
+	std::stack <Str_Num*> st_table;
+	st_table.push(tmp_end);
+	st_table.push(tmp_start);
+	do {
+		left = st_table.top();
+		st_table.pop();
+		right = st_table.top();
+		st_table.pop();
 
-		st_table.push(tmp_end);
-		st_table.push(tmp_start);
-		do {
-			left = st_table.top();
-			st_table.pop();
-			right = st_table.top();
-			st_table.pop();
-
-			mid_num = (left->Num + right->Num) / 2;
-			tmp = tmp_start;
-			while (tmp->Num != mid_num)
-			{
-				tmp = tmp->next;
-			}
-			mid_ID = tmp->ID;
-			l = left;
-			r = right;
-			while (l->Num < r->Num)
-			{
-				while (l->ID < mid_ID) l = l->next;
-				while (mid_ID < r->ID) r = r->prev;
-				if ((l->Num <= r->Num) && l != r)
-				{
-					if (l == tmp_start && r == tmp_end) {
-						if (l == *start)
-						{
-							*start = r;
-						}
-						if (l == *end)
-						{
-							*end = r;
-						}
-						tmp_start_prev->right = r;
-						tmp_start = r;
-						r->prev->next = l;
-						l->next->prev = r;
-						tmp_end = l;
-						tmp = l->next;
-						l->next = r->next;
-						r->next = tmp;
-						tmp = l->prev;
-						l->prev = r->prev;
-						r->prev = tmp;
-					}
-					else if (l == tmp_start) {
-						tmp_start_prev->right = r;
-						tmp_start = r;
-						r->prev->next = l;
-						l->next->prev = r;
-						r->next->prev = l;
-						tmp = l->next;
-						l->next = r->next;
-						r->next = tmp;
-						tmp = l->prev;
-						l->prev = r->prev;
-						r->prev = tmp;
-					}
-					else if (r == tmp_end) {
-						l->prev->next = r;
-						r->prev->next = l;
-						l->next->prev = r;
-						tmp_end = l;
-						tmp = l->next;
-						l->next = r->next;
-						r->next = tmp;
-						tmp = l->prev;
-						l->prev = r->prev;
-						r->prev = tmp;
+		mid_num = (left->Num + right->Num) / 2;
+		tmp = tmp_start;
+		while (tmp->Num != mid_num)
+		{
+			tmp = tmp->next;
+		}
+		//std::string dg= "ID";
+		mid_data = return_Str_Num(tmp, n);
+		l = left;
+		r = right;
+		while (l->Num < r->Num) {
+			while (return_Str_Num(l, n) < mid_data) l = l->next;
+			while (mid_data < return_Str_Num(r, n)) r = r->prev;
+			if ((l->Num <= r->Num)) {
+				if (l == tmp_start && r == tmp_end) {
+					if (l == *start)
+					{
+						*start = r;
 					}
 					else
 					{
-						l->prev->next = r;
-						r->prev->next = l;
-						l->next->prev = r;
-						r->next->prev = l;
-						tmp = l->next;
-						l->next = r->next;
-						r->next = tmp;
-						tmp = l->prev;
-						l->prev = r->prev;
-						r->prev = tmp;
+						tmp_start_prev->right = r;
 					}
-					tmp = l;
-					l = r;
-					r = tmp;
+					if (l == *end)
+					{
+						*end = r;
+					}
+					tmp_start = r;
+					tmp_end = l;
 					if (l->next == r)
 					{
-						l->Num += l->next->Num;
-						l->next->Num = l->Num - l->next->Num;
-						l->Num = l->Num - l->next->Num;
+						l->next = r->next;
+						r->prev = l->prev;
+						l->prev = r;
+						r->next = l;
 					}
 					else
 					{
-						l->Num = l->next->Num - 1;
-						r->Num = r->prev->Num + 1;
+						r->prev->next = l;
+						l->next->prev = r;
+						tmp = l->next;
+						l->next = r->next;
+						r->next = tmp;
+						tmp = l->prev;
+						l->prev = r->prev;
+						r->prev = tmp;
 					}
-					l = l->next;
-					r = r->prev;
-
 				}
+				else if (l == tmp_start) {
+					if (l == *start)
+					{
+						*start = r;
+					}
+					else
+					{
+						tmp_start_prev->right = r;
+					}
+
+					tmp_start = r;
+					r->next->prev = l;
+					if (l->next == r)
+					{
+						l->next = r->next;
+						r->prev = l->prev;
+						l->prev = r;
+						r->next = l;
+					}
+					else
+					{
+						r->prev->next = l;
+						l->next->prev = r;
+						tmp = l->next;
+						l->next = r->next;
+						r->next = tmp;
+						tmp = l->prev;
+						l->prev = r->prev;
+						r->prev = tmp;
+					}
+				}
+				else if (r == tmp_end) {
+					if (l == *end)
+					{
+						*end = r;
+					}
+					tmp_end = l;
+					l->prev->next = r;
+					if (l->next == r)
+					{
+						l->next = r->next;
+						r->prev = l->prev;
+						l->prev = r;
+						r->next = l;
+					}
+					else
+					{
+						r->prev->next = l;
+						l->next->prev = r;
+
+						tmp = l->next;
+						l->next = r->next;
+						r->next = tmp;
+						tmp = l->prev;
+						l->prev = r->prev;
+						r->prev = tmp;
+					}
+				}
+				else
+				{
+					l->prev->next = r;
+					r->next->prev = l;
+					if (l->next == r)
+					{
+						l->next = r->next;
+						r->prev = l->prev;
+						l->prev = r;
+						r->next = l;
+					}
+					else
+					{
+						r->prev->next = l;
+						l->next->prev = r;
+						tmp = l->next;
+						l->next = r->next;
+						r->next = tmp;
+						tmp = l->prev;
+						l->prev = r->prev;
+						r->prev = tmp;
+					}
+				}
+				tmp = l;
+				l = r;
+				r = tmp;
+				if (l->next == r)
+				{
+					l->Num += l->next->Num;
+					l->next->Num = l->Num - l->next->Num;
+					l->Num = l->Num - l->next->Num;
+				}
+				else
+				{
+					l->Num = l->next->Num - 1;
+					r->Num = r->prev->Num + 1;
+				}
+				l = l->next;
+				r = r->prev;
+
 			}
-
-			if (left->Num < r->Num)
-			{
-				st_table.push(r);
-				st_table.push(left);
-			}
-			if (l->Num < right->Num)
-			{
-				st_table.push(right);
-				st_table.push(l);
-			}
-		} while (st_table.size() != NULL);
-	}
-	case 2: {
-
-	}
-	case 3: {
-
-	}
-	case 4: {
-
-	}
-	default: {
-		return 0;
-	}
-	}
+		}
+		if (left->Num < r->Num)
+		{
+			st_table.push(r);
+			st_table.push(left);
+		}
+		if (l->Num < right->Num)
+		{
+			st_table.push(right);
+			st_table.push(l);
+		}
+	} while (st_table.size() != NULL);
+	return 1;
 }
 
 int main() {
@@ -298,13 +355,16 @@ int main() {
 	std::string name_table_tmp;
 	std::string name_file_tmp;
 	std::string a;
-	std::cin >> a;
-	std::cin >> name_file_tmp;
-	std::cin >> name_table_tmp;
+	//std::cin >> a;
+	//std::cin >> name_file_tmp;
+	//std::cin >> name_table_tmp;
+	name_file_tmp = "Text";
+	name_table_tmp = "asd";
 	create_table(name_file_tmp, name_table_tmp + '0', &start_tables, &end_tables);
 	create_table(name_file_tmp, name_table_tmp + '1', &start_tables, &end_tables);
 	create_table(name_file_tmp, name_table_tmp + '2', &start_tables, &end_tables);
 	delete_table(name_table_tmp + '1', &start_tables, &end_tables);
-	sort_table(name_table_tmp + '2', &start_tables, &end_tables, 1);
+	sort_table(name_table_tmp + '2', &start_tables, &end_tables, 2);
+
 	return 0;
 }
