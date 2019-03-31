@@ -102,7 +102,7 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 	{
 		if (c->Table_name != Table_name && c == *end)
 		{
-			return 0;
+			return 1;
 		}
 		else if (c->Table_name == Table_name)
 		{
@@ -111,7 +111,7 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 				*start = (*start)->right;
 				c->right = NULL;
 				delete (c);
-				return 1;
+				return 0;
 			}
 			else
 			{
@@ -124,14 +124,14 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 					*end = c_tmp;
 					(*end)->right = NULL;
 					delete (c);
-					return 1;
+					return 0;
 				}
 				else
 				{
 					c_tmp->right = c->right;
 					c->right = NULL;
 					delete (c);
-					return 1;
+					return 0;
 				}
 			}
 		}
@@ -155,11 +155,15 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	int mid_num;
 	tmp_start = *start;
 	tmp_start_prev = *start;
+	if (!(1 <= n && n <= 4))
+	{
+		return 2;
+	}
 	while (tmp_start->Table_name != Table_name) {
 		tmp_start = tmp_start->right;
 		if (tmp_start == *end&&tmp_start->Table_name != Table_name)
 		{
-			return 0;
+			return 1;
 		}
 	}
 	if (tmp_start == *start)
@@ -346,7 +350,43 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 			st_table.push(l);
 		}
 	} while (st_table.size() != NULL);
-	return 1;
+	return 0;
+}
+int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
+	Str_Num* c_tmp = new Str_Num();
+	Str_Num* c = new Str_Num();
+	c = *start;
+	c_tmp = *start;
+	while (1)
+	{
+		if (c->Table_name != Table_name && c == *end)
+		{
+			return 1;
+		}
+		else if (c->Table_name == Table_name)
+		{
+			c_tmp = c;
+			while (1)
+			{
+				if (c_tmp->next == NULL && c_tmp->Num != n)
+				{
+					return 3;
+				}
+				else if (c_tmp->Num == n)
+				{
+
+				}
+				else
+				{
+					c_tmp = c_tmp->next;
+				}
+			}
+		}
+		else
+		{
+			c = c->right;
+		}
+	}
 }
 
 int main() {
@@ -355,6 +395,7 @@ int main() {
 	std::string name_table_tmp;
 	std::string name_file_tmp;
 	std::string a;
+	int error_ID;
 	//std::cin >> a;
 	//std::cin >> name_file_tmp;
 	//std::cin >> name_table_tmp;
