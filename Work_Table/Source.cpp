@@ -354,7 +354,9 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 }
 int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	Str_Num* c_tmp = new Str_Num();
+	Str_Num* c_tmp_prev = new Str_Num();
 	Str_Num* c = new Str_Num();
+	std::string answer;
 	c = *start;
 	c_tmp = *start;
 	while (1)
@@ -374,7 +376,66 @@ int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 				}
 				else if (c_tmp->Num == n)
 				{
+					if (c_tmp==*start)
+					{
+						if (c_tmp->next==NULL)
+						{
+							while (true)
+							{
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cin >> answer;
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								if (answer == "Y")
+								{
+									*start = (*start)->right;
+									c_tmp->right = NULL;
+									delete(c_tmp);
+									return 0;
+								}
+								else if (answer == "N")
+								{
+									return 0;
+								}
+								else
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+								}
+							}
+						}
+						else
+						{
+							c_tmp->next->right = c_tmp->right;
+							c_tmp->next->prev = NULL;
+							c_tmp->right = NULL;
+							*start = c_tmp->next;
+							c_tmp->next = NULL;
+							delete(c_tmp);
+						}
 
+					}
+					else if(c_tmp==*end)
+					{
+						c_tmp_prev = *start;
+						while (c_tmp_prev->next != c_tmp)
+						{
+							c_tmp_prev = c_tmp_prev->prev;
+						}
+						c_tmp_prev->right = c_tmp->next;
+
+
+					}
+					else if (c_tmp==c)
+					{
+
+					}
+					else
+					{
+
+					}
 				}
 				else
 				{
@@ -387,25 +448,112 @@ int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 			c = c->right;
 		}
 	}
-}
-
+}//
+//GG
 int main() {
 	Str_Num *start_tables = new Str_Num(), *end_tables = NULL, *tmp_tables = NULL;
 	end_tables = start_tables;
-	std::string name_table_tmp;
-	std::string name_file_tmp;
+	std::string name_table;
+	std::string name_file;
 	std::string a;
 	int error_ID;
+	std::string answer;
 	//std::cin >> a;
-	//std::cin >> name_file_tmp;
-	//std::cin >> name_table_tmp;
-	name_file_tmp = "Text";
-	name_table_tmp = "asd";
-	create_table(name_file_tmp, name_table_tmp + '0', &start_tables, &end_tables);
-	create_table(name_file_tmp, name_table_tmp + '1', &start_tables, &end_tables);
-	create_table(name_file_tmp, name_table_tmp + '2', &start_tables, &end_tables);
-	delete_table(name_table_tmp + '1', &start_tables, &end_tables);
-	sort_table(name_table_tmp + '2', &start_tables, &end_tables, 2);
+	//std::cin >> name_file;
+	//std::cin >> name_table;
+	//delete_table(name_table + '1', &start_tables, &end_tables);
+	//sort_table(name_table + '2', &start_tables, &end_tables, 2);
+	while (true)
+	{
+		std::cin >> a;
+		if (a=="create")
+		{
+			std::cin >> name_file;
+			std::cin >> name_table;
+			tmp_tables = start_tables;
+			while (tmp_tables->Table_name != name_table && tmp_tables != end_tables)
+			{
+				tmp_tables = tmp_tables->right;
+			}
+			if (tmp_tables->Table_name != name_table && tmp_tables == end_tables)
+			{
+				create_table(name_file, name_table, &start_tables, &end_tables);
+			}
+			else
+			{
+				while (true)
+				{
+					std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl;
+					std::cin >> answer;
+					while (std::cin.peek() != '\n')
+					{
+						std::cin >> answer;
+					}
+					if (answer == "Y")
+					{
+						delete_table(name_table, &start_tables, &end_tables);
+						create_table(name_file, name_table, &start_tables, &end_tables);
+					}
+					else if (answer == "N")
+					{
+					}
+					else
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+					}
+				}
+			}
+			system("cls");
+		}
+		else if (a=="delete")
+		{
+			std::cin >> name_table;
+			while (tmp_tables->Table_name != name_table && tmp_tables != end_tables)
+			{
+				tmp_tables = tmp_tables->right;
+			}
+			if (tmp_tables->Table_name != name_table && tmp_tables == end_tables)
+			{
+				
+			}
+			else
+			{
+				std::cout<<//agree??
+			}
+		}
+		else if (a=="sort")
+		{
 
+		} 
+		else if (a=="dellrec")
+		{
+
+		}
+		else if (a=="search")
+		{
+
+		}
+		else if(a=="join")
+		{
+
+		}
+		else if(a=="save")
+		{
+
+		}
+		else if (a=="write")
+		{
+
+		}
+		else if (a=="exit")
+		{
+			break;
+		}
+		else
+		{
+			system("cls");
+		}
+	}
 	return 0;
 }
