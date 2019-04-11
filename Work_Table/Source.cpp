@@ -416,29 +416,143 @@ int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 							*start = c_tmp->next;
 							c_tmp->next = NULL;
 							delete(c_tmp);
+							c_tmp = *start;
+							while (c_tmp != NULL)
+							{
+								c_tmp->Num--;
+								c_tmp = c_tmp->next;
+							}
 							system("cls");
 							return 0;
 						}
-
 					}
 					else if(c_tmp==*end)
 					{
 						c_tmp_prev = *start;
-						while (c_tmp_prev->next != c_tmp)
+						while (c_tmp_prev->right != c_tmp)
 						{
-							c_tmp_prev = c_tmp_prev->prev;
+							c_tmp_prev = c_tmp_prev->right;
 						}
-						c_tmp_prev->right = c_tmp->next;
 						//move END
+						if (c_tmp->next==NULL)
+						{
+							while (true)
+							{
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cin >> answer;
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								if (answer == "Y")
+								{
+									system("cls");
+									c_tmp_prev->right = NULL;
+									delete(c_tmp);
+									return 0;
+								}
+								else if (answer == "N")
+								{
+									system("cls");
+									return 0;
+								}
+								else
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+								}
+							}
+						}
+						else
+						{
+							c_tmp_prev->right = c_tmp->next;
+							c_tmp = c_tmp->next;
+							c_tmp->prev->next = NULL;
+							delete(c_tmp->prev);
+							c_tmp->prev = NULL;
+							while (c_tmp != NULL)
+							{
+								c_tmp->Num--;
+								c_tmp = c_tmp->next;
+							}
+							return 0;
+						}
 
 					}
 					else if (c_tmp==c)
 					{
-						//move start_table
+						c_tmp_prev = *start;
+						while (c_tmp_prev->right != c_tmp)
+						{
+							c_tmp_prev = c_tmp_prev->right;
+						}
+						if (c_tmp->next == NULL)
+						{
+							while (true)
+							{
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cin >> answer;
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								if (answer == "Y")
+								{
+									system("cls");
+									c_tmp_prev->right = c_tmp->right;
+									c_tmp->right = NULL;
+									delete(c_tmp);
+									return 0;
+								}
+								else if (answer == "N")
+								{
+									system("cls");
+									return 0;
+								}
+								else
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+								}
+							}
+						}
+						else
+						{
+							c_tmp_prev->right = c_tmp->next;
+							c_tmp->next->right = c_tmp->right;
+							c_tmp->right = NULL;
+							c_tmp_prev->right = NULL;
+							c_tmp->next->prev = NULL;
+							c_tmp->next = NULL;
+							delete(c_tmp);
+							c_tmp = c_tmp_prev->right;
+							while (c_tmp != NULL)
+							{
+								c_tmp->Num--;
+								c_tmp = c_tmp->next;
+							}
+							return 0;
+						}
 					}
 					else
 					{
-						//easy dell
+						c_tmp_prev = c;
+						while (c_tmp_prev->right != c_tmp)
+						{
+							c_tmp_prev = c_tmp_prev->right;
+						}
+						c_tmp_prev->next = c_tmp->next;
+						c_tmp->next = NULL;
+						c_tmp_prev->next->prev = c_tmp->prev;
+						c_tmp->prev = NULL;
+						delete(c_tmp);
+						c_tmp = c_tmp_prev->next;
+						while (c_tmp != NULL)
+						{
+							c_tmp->Num--;
+							c_tmp = c_tmp->next;
+						}
+						return 0;
 					}
 				}
 				else
@@ -463,6 +577,8 @@ int main() {
 	int error_ID;
 	std::string answer="";
 	std::string namber_field="";
+	int namber_rec;
+	int ERROR = 0;
 	//std::cin >> a;
 	//std::cin >> name_file;
 	//std::cin >> name_table;
@@ -662,13 +778,64 @@ int main() {
 				}
 			}
 		}
-		else if (a=="dellrec")
+		else if (a == "dellrec")
 		{
-			
+			if (std::cin.peek() == '\n')
+			{
+				system("cls");
+				std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+			}
+			else
+			{
+				std::cin >> name_table;
+				if (std::cin.peek() == '\n')
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+				}
+				else
+				{
+					std::cin >> namber_rec;
+					answer = "";
+					while (std::cin.peek() != '\n')
+					{
+						std::cin >> answer;
+					}
+					if (answer != "")
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+
+					}
+					else
+					{
+						
+						if (ERROR = delrec(name_table, &start_tables, &end_tables, namber_rec))
+						{
+							switch (ERROR)
+							{
+							case 1: {
+								system("cls");
+								std::cout << "A table with that name does not exist";
+							}
+							case 3: {
+								system("cls");
+								std::cout << "A record with that number does not exist";
+							}
+							}
+						}
+						else
+						{
+							system("cls");
+						}
+					}
+				}
+			}
+
 		}
 		else if (a=="search")
 		{
-
+			
 		}
 		else if(a=="join")
 		{
