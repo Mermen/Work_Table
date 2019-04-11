@@ -352,7 +352,7 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	} while (st_table.size() != NULL);
 	return 0;
 }
-int delrec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
+int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	Str_Num* c_tmp = new Str_Num();
 	Str_Num* c_tmp_prev = new Str_Num();
 	Str_Num* c = new Str_Num();
@@ -579,11 +579,6 @@ int main() {
 	std::string namber_field="";
 	int namber_rec;
 	int ERROR = 0;
-	//std::cin >> a;
-	//std::cin >> name_file;
-	//std::cin >> name_table;
-	//delete_table(name_table + '1', &start_tables, &end_tables);
-	//sort_table(name_table + '2', &start_tables, &end_tables, 2);
 	while (true)
 	{
 		std::cin >> a;
@@ -810,7 +805,7 @@ int main() {
 					else
 					{
 						
-						if (ERROR = delrec(name_table, &start_tables, &end_tables, namber_rec))
+						if (ERROR = del_rec(name_table, &start_tables, &end_tables, namber_rec))
 						{
 							switch (ERROR)
 							{
