@@ -16,7 +16,7 @@ struct Str_Num {
 	std::string name;
 	std::string second_name;
 	std::string year;
-	int pasport;
+	std::string pasport;
 	std::string money;
 	Str_Num* next = NULL;
 	Str_Num* prev = NULL;
@@ -73,18 +73,10 @@ void create_table(std::string file_name, std::string Table_name, Str_Num **start
 			c = c->next;
 		}
 	}
-	if ((*start)->Table_name == "") {
-		(*start)->Table_name = start_tmp->Table_name;
-		(*start)->Num = start_tmp->Num;
-		(*start)->ID = start_tmp->ID;
-		(*start)->surname = start_tmp->surname;
-		(*start)->name = start_tmp->name;
-		(*start)->second_name = start_tmp->second_name;
-		(*start)->year = start_tmp->year;
-		(*start)->pasport = start_tmp->pasport;
-		(*start)->money = start_tmp->money;
-		(*start)->next = start_tmp->next;
-		(*start)->prev = start_tmp->prev;
+	if ((*start) == NULL) {
+		*start = new Str_Num();
+		*start = start_tmp;
+		*end = start_tmp;
 	}
 	else {
 		(*end)->right = new Str_Num();
@@ -110,6 +102,10 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 			{
 				*start = (*start)->right;
 				c->right = NULL;
+				if (c == *end)
+				{
+					*end = NULL;
+				}
 				delete (c);
 				return 0;
 			}
@@ -392,6 +388,10 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								{
 									system("cls");
 									*start = (*start)->right;
+									if (c_tmp == *end)
+									{
+										*end = (*start)->right;
+									}
 									c_tmp->right = NULL;
 									delete(c_tmp);
 									return 0;
@@ -410,6 +410,10 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						}
 						else
 						{
+							if (c_tmp == *end)
+							{
+								*end = c_tmp->next;
+							}
 							c_tmp->next->right = c_tmp->right;
 							c_tmp->next->prev = NULL;
 							c_tmp->right = NULL;
@@ -448,6 +452,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								{
 									system("cls");
 									c_tmp_prev->right = NULL;
+									*end = c_tmp_prev;
 									delete(c_tmp);
 									return 0;
 								}
@@ -470,6 +475,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 							c_tmp->prev->next = NULL;
 							delete(c_tmp->prev);
 							c_tmp->prev = NULL;
+							*end = c_tmp;
 							while (c_tmp != NULL)
 							{
 								c_tmp->Num--;
@@ -521,7 +527,6 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 							c_tmp_prev->right = c_tmp->next;
 							c_tmp->next->right = c_tmp->right;
 							c_tmp->right = NULL;
-							c_tmp_prev->right = NULL;
 							c_tmp->next->prev = NULL;
 							c_tmp->next = NULL;
 							delete(c_tmp);
@@ -569,7 +574,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 }//
 //GG
 int main() {
-	Str_Num *start_tables = new Str_Num(), *end_tables = NULL, *tmp_tables = NULL;
+	Str_Num *start_tables = NULL, *end_tables = NULL, *tmp_tables = NULL;
 	end_tables = start_tables;
 	std::string name_table="";
 	std::string name_file="";
@@ -577,7 +582,7 @@ int main() {
 	int error_ID;
 	std::string answer="";
 	std::string namber_field="";
-	int namber_rec;
+	int namber_rec = 0;
 	int ERROR = 0;
 	while (true)
 	{
@@ -613,38 +618,49 @@ int main() {
 					}
 					else
 					{
-						while (tmp_tables->Table_name != name_table && tmp_tables != end_tables)
-						{
-							tmp_tables = tmp_tables->right;
-						}
-						if (tmp_tables->Table_name != name_table && tmp_tables == end_tables)
+						if (tmp_tables==NULL)
 						{
 							create_table(name_file, name_table, &start_tables, &end_tables);
+							system("cls");
 						}
 						else
 						{
-							while (true)
+							while (tmp_tables->Table_name != name_table && tmp_tables != end_tables)
 							{
-								std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl;
-								std::cin >> answer;
-								while (std::cin.peek() != '\n')
+								tmp_tables = tmp_tables->right;
+							}
+							if (tmp_tables->Table_name != name_table && tmp_tables == end_tables)
+							{
+								create_table(name_file, name_table, &start_tables, &end_tables);
+								system("cls");
+							}
+							else
+							{
+								while (true)
 								{
+									std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl;
 									std::cin >> answer;
-								}
-								if (answer == "Y")
-								{
-									delete_table(name_table, &start_tables, &end_tables);
-									create_table(name_file, name_table, &start_tables, &end_tables);
-									system("cls");
-								}
-								else if (answer == "N")
-								{
-									system("cls");
-								}
-								else
-								{
-									system("cls");
-									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+									while (std::cin.peek() != '\n')
+									{
+										std::cin >> answer;
+									}
+									if (answer == "Y")
+									{
+										delete_table(name_table, &start_tables, &end_tables);
+										create_table(name_file, name_table, &start_tables, &end_tables);
+										system("cls");
+										break;
+									}
+									else if (answer == "N")
+									{
+										system("cls");
+										break;
+									}
+									else
+									{
+										system("cls");
+										std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+									}
 								}
 							}
 						}
@@ -699,10 +715,12 @@ int main() {
 								{
 									system("cls");
 									std::cout << "A table with that name does not exist";
+									break;
 								}
 								else
 								{
 									system("cls");
+									break;
 								}
 							}
 							else if (answer == "N")
@@ -773,7 +791,7 @@ int main() {
 				}
 			}
 		}
-		else if (a == "dellrec")
+		else if (a == "delrec")
 		{
 			if (std::cin.peek() == '\n')
 			{
