@@ -37,9 +37,24 @@ std::string return_Str_Num(Str_Num *c, int n) {
 		return data;
 	}
 	case 3: {
-		return c->year;
+		std::string data;
+		data = c->name;
+		std::transform(data.begin(), data.end(), data.begin(), std::tolower);
+		return data;
 	}
 	case 4: {
+		std::string data;
+		data = c->second_name;
+		std::transform(data.begin(), data.end(), data.begin(), std::tolower);
+		return data;
+	}
+	case 5: {
+		return c->year;
+	}
+	case 6: {
+		return c->pasport;
+	}
+	case 7: {
 		return c->money;
 	}
 	}
@@ -147,14 +162,16 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	Str_Num* left = new Str_Num();
 	Str_Num* right = new Str_Num();
 	std::string mid_data="";
-	std::string mid_str="";
+	int mid_data_num = 0;
 	int mid_num=0;
 	tmp_start = *start;
 	tmp_start_prev = *start;
+	/*
 	if (!(1 <= n && n <= 4))
 	{
 		return 2;
 	}
+	*/
 	while (tmp_start->Table_name != Table_name) {
 		tmp_start = tmp_start->right;
 		if (tmp_start == *end&&tmp_start->Table_name != Table_name)
@@ -193,19 +210,37 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 			{
 				tmp = tmp->next;
 			}
-			//std::string dg= "ID";
-			mid_data = return_Str_Num(tmp, n);
+			if (n == 2)
+			{
+				mid_data = return_Str_Num(tmp, n);
+			}
+			else
+			{
+				mid_data_num = std::stoi(return_Str_Num(tmp, n));
+			}
 			l = left;
 			r = right;
-			while (l->Num < r->Num) 
+			while (l->Num < r->Num)
 			{
-				
-				while (return_Str_Num(l, n) < mid_data) l = l->next;
-				while (mid_data < return_Str_Num(r, n)) r = r->prev;
-				if ((l->Num <= r->Num)) 
+				if (n==2)
 				{
-					
-					if (l == tmp_start && r == tmp_end) {
+					while (return_Str_Num(l, n) < mid_data) l = l->next;
+					while (mid_data < return_Str_Num(r, n)) r = r->prev;
+				}
+				else
+				{
+					while (std::stoi(return_Str_Num(l, n)) < mid_data_num) l = l->next;
+					while (mid_data_num < std::stoi(return_Str_Num(r, n))) r = r->prev;
+				}
+				if ((l->Num <= r->Num))
+				{
+
+					if (l==r)
+					{
+
+					}
+					else if (l == tmp_start && r == tmp_end) 
+					{
 						if (l == *start)
 						{
 							*start = r;
@@ -264,6 +299,7 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						}
 						else
 						{
+
 							r->prev->next = l;
 							l->next->prev = r;
 							tmp = l->next;
@@ -290,6 +326,8 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						}
 						else
 						{
+
+
 							r->prev->next = l;
 							l->next->prev = r;
 
@@ -341,8 +379,11 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 					tmp = l;
 					l = r;
 					r = tmp;
+					if (l==r)
+					{
 
-					if (l->next == r)
+					}
+					else if (l->next == r)
 					{
 						l->Num += l->next->Num;
 						l->next->Num = l->Num - l->next->Num;
@@ -353,11 +394,17 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						l->Num = l->next->Num - 1;
 						r->Num = r->prev->Num + 1;
 					}
-					l = l->next;
-					r = r->prev; 
+					if (l->next!=NULL)
+					{
+						l = l->next;
+					}
+					if (r->prev != NULL) 
+					{
+						r = r->prev;
+					}
 
 				}
-				
+
 			}
 		}
 		if (left->Num < r->Num)
@@ -597,18 +644,79 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 		}
 	}
 }//
+int search_rec(std::string Table_name, Str_Num **start, Str_Num **end, std::string letter, int n)
+{
+	Str_Num* c = new Str_Num();
+	c = *start;
+	if (!(1 <= n && n <= 7))
+	{
+		return 2;
+	}
+	int flag = 0;
+	std::string answer;
+	while (1)
+	{
+		if (c->Table_name != Table_name && c == *end)
+		{
+			return 1;
+		}
+		else if (c->Table_name == Table_name)
+		{
+			while (true)
+			{
+				if (c == NULL)
+				{
+					if (flag)
+					{
+						std::cout << "\n";
+						std::cout << "Enter any message";
+						while (std::cin.peek()!='\n')
+						{
+							std::cin >> answer;
+						}
+						return 0;
+					}
+					else
+					{
+						return 3;
+					}
+				}
+				else if (return_Str_Num(c, n) == letter)
+				{
+					for (int i = 1; i < 8; i++)
+					{
+						std::cout << return_Str_Num(c, i) << " ";
+					}
+					std::cout << "\n";
+					flag = 1;
+					c = c->next;
+				}
+				else
+				{
+					c = c->next;
+				}
+			}
+
+		}
+		else
+		{
+			c = c->right;
+		}
+	}
+}
 //GG
 int main() {
 	Str_Num *start_tables = NULL, *end_tables = NULL, *tmp_tables = NULL;
 	end_tables = start_tables;
-	std::string name_table="";
-	std::string name_file="";
-	std::string a="";
+	std::string name_table = "";
+	std::string name_file = "";
+	std::string a = "";
 	int error_ID;
-	std::string answer="";
-	std::string namber_field="";
+	std::string answer = "";
+	std::string namber_field = "";
 	int namber_rec = 0;
 	int ERROR = 0;
+	std::string letter="";
 	while (true)
 	{
 		std::cin >> a;
@@ -824,6 +932,20 @@ int main() {
 							else
 							{
 								int namber = namber_field[0] - '0';
+								switch (namber)
+								{
+								case 3: {
+									namber = 5;
+									break;
+								}
+								case 4: {
+									namber = 7;
+									break;
+								}
+								default: {
+									break;
+								}
+								}
 								if (sort_table(name_table, &start_tables, &end_tables, namber))
 								{
 									system("cls");
@@ -880,18 +1002,17 @@ int main() {
 						}
 						else
 						{
-
 							if (ERROR = del_rec(name_table, &start_tables, &end_tables, namber_rec))
 							{
 								switch (ERROR)
 								{
 								case 1: {
 									system("cls");
-									std::cout << "A table with that name does not exist";
+									std::cout << "A table with that name does not exist" << std::endl;
 								}
 								case 3: {
 									system("cls");
-									std::cout << "A record with that number does not exist";
+									std::cout << "A record with that number does not exist" << std::endl;
 								}
 								}
 							}
@@ -917,6 +1038,75 @@ int main() {
 			}
 			else
 			{
+				if (std::cin.peek() == '\n')
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+				}
+				else
+				{
+					std::cin >> name_table;
+					answer = "";
+					if (std::cin.peek() == '\n')
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+					}
+					else
+					{
+						std::cin >> namber_field;
+						if (!("1" <= namber_field && namber_field <= "7"))
+						{
+							system("cls");
+							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+						}
+						else
+						{
+							if (std::cin.peek() == '\n')
+							{
+								system("cls");
+								std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+							}
+							else
+							{
+								std::cin >> letter;
+								answer = "";
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								if (answer != "")
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+								}
+								else
+								{
+									int namber = namber_field[0] - '0';
+									if (ERROR = search_rec(name_table, &start_tables, &end_tables, letter, namber))
+									{
+										switch (ERROR)
+										{
+										case 1: {
+											system("cls");
+											std::cout << "A table with that name does not exist" << std::endl;
+										}
+										case 3: {
+											system("cls");
+											std::cout << "A record with that letter does not exist" << std::endl;
+										}
+										}
+									}
+									else
+									{
+										system("cls");
+									}
+								}
+							}
+						}
+					}
+				}
+
 			}
 		}
 		else if (a == "join")
@@ -965,12 +1155,16 @@ int main() {
 			{
 			}
 		}
-		else if (a=="exit")
+		else if (a == "exit")
 		{
 			break;
 		}
 		else
 		{
+			while (std::cin.peek() != '\n')
+			{
+				std::cin >> answer;
+			}
 			system("cls");
 			std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
 		}
