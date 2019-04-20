@@ -471,6 +471,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								else if (answer == "N")
 								{
 									system("cls");
+
 									return 0;
 								}
 								else
@@ -670,6 +671,8 @@ int search_rec(std::string Table_name, Str_Num **start, Str_Num **end, std::stri
 					{
 						std::cout << "\n";
 						std::cout << "Enter any message";
+						std::cout << "\n";
+						std::cin >> answer;
 						while (std::cin.peek()!='\n')
 						{
 							std::cin >> answer;
@@ -702,6 +705,59 @@ int search_rec(std::string Table_name, Str_Num **start, Str_Num **end, std::stri
 		{
 			c = c->right;
 		}
+	}
+}
+int join_table(std::string Table_name_1, std::string Table_name_2, std::string Table_name_new, Str_Num **start, Str_Num **end)
+{
+	Str_Num* table_1 = new Str_Num();
+	Str_Num* table_2 = new Str_Num();
+	Str_Num* table_tmp = new Str_Num();
+	table_1 = *start;
+	table_2 = *start;
+	table_tmp = *start;
+	while (true)
+	{
+		if(table_1->Table_name != Table_name_1 && table_1 == *end)
+		{
+			return 1;
+		}
+		else if (table_1->Table_name == Table_name_1)
+		{
+			while (true)
+			{
+				if (table_2->Table_name != Table_name_2 && table_2 == *end)
+				{
+					return 1;
+				}
+				else if (table_2->Table_name == Table_name_2)
+				{
+					while (true)
+					{
+						if (table_tmp->Table_name != Table_name_2 && table_tmp == *end)
+						{
+							
+						}
+						else if (table_tmp->Table_name == Table_name_2)
+						{
+							
+						}
+						else
+						{
+							table_tmp = table_2->right;
+						}
+					}
+				}
+				else
+				{
+					table_2 = table_2->right;
+				}
+			}
+		}
+		else
+		{
+			table_1 = table_1->right;
+		}
+
 	}
 }
 //GG
