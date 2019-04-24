@@ -18,9 +18,9 @@ struct Str_Num {
 	std::string year;
 	std::string pasport;
 	std::string money;
-	Str_Num* next = NULL;
-	Str_Num* prev = NULL;
-	Str_Num* right = NULL;
+	Str_Num* next = nullptr;
+	Str_Num* prev = nullptr;
+	Str_Num* right = nullptr;
 
 };
 
@@ -88,7 +88,7 @@ void create_table(std::string file_name, std::string Table_name, Str_Num **start
 			c = c->next;
 		}
 	}
-	if ((*start) == NULL) {
+	if ((*start) == nullptr) {
 		*start = new Str_Num();
 		*start = start_tmp;
 		*end = start_tmp;
@@ -116,10 +116,10 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 			if (*start == c)
 			{
 				*start = (*start)->right;
-				c->right = NULL;
+				c->right = nullptr;
 				if (c == *end)
 				{
-					*end = NULL;
+					*end = nullptr;
 				}
 				delete (c);
 				return 0;
@@ -133,14 +133,14 @@ int delete_table(std::string Table_name, Str_Num **start, Str_Num **end) {
 				if (c == *end)
 				{
 					*end = c_tmp;
-					(*end)->right = NULL;
+					(*end)->right = nullptr;
 					delete (c);
 					return 0;
 				}
 				else
 				{
 					c_tmp->right = c->right;
-					c->right = NULL;
+					c->right = nullptr;
 					delete (c);
 					return 0;
 				}
@@ -181,7 +181,7 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 	}
 	if (tmp_start == *start)
 	{
-		tmp_start_prev = NULL;
+		tmp_start_prev = nullptr;
 	}
 	else
 	{
@@ -191,7 +191,7 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 		}
 	}
 	tmp_end = tmp_start;
-	while (tmp_end->next != NULL)
+	while (tmp_end->next != nullptr)
 	{
 		tmp_end = tmp_end->next;
 	}
@@ -394,11 +394,11 @@ int sort_table(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						l->Num = l->next->Num - 1;
 						r->Num = r->prev->Num + 1;
 					}
-					if (l->next!=NULL)
+					if (l->next!=nullptr)
 					{
 						l = l->next;
 					}
-					if (r->prev != NULL) 
+					if (r->prev != nullptr) 
 					{
 						r = r->prev;
 					}
@@ -438,7 +438,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 			c_tmp = c;
 			while (1)
 			{
-				if (c_tmp->next == NULL && c_tmp->Num != n)
+				if (c_tmp->next == nullptr && c_tmp->Num != n)
 				{
 					return 3;
 				}
@@ -446,7 +446,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 				{
 					if (c_tmp==*start)
 					{
-						if (c_tmp->next==NULL)
+						if (c_tmp->next==nullptr)
 						{
 							while (true)
 							{
@@ -464,7 +464,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 									{
 										*end = (*start)->right;
 									}
-									c_tmp->right = NULL;
+									c_tmp->right = nullptr;
 									delete(c_tmp);
 									return 0;
 								}
@@ -488,13 +488,13 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								*end = c_tmp->next;
 							}
 							c_tmp->next->right = c_tmp->right;
-							c_tmp->next->prev = NULL;
-							c_tmp->right = NULL;
+							c_tmp->next->prev = nullptr;
+							c_tmp->right = nullptr;
 							*start = c_tmp->next;
-							c_tmp->next = NULL;
+							c_tmp->next = nullptr;
 							delete(c_tmp);
 							c_tmp = *start;
-							while (c_tmp != NULL)
+							while (c_tmp != nullptr)
 							{
 								c_tmp->Num--;
 								c_tmp = c_tmp->next;
@@ -511,7 +511,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 							c_tmp_prev = c_tmp_prev->right;
 						}
 						//move END
-						if (c_tmp->next==NULL)
+						if (c_tmp->next==nullptr)
 						{
 							while (true)
 							{
@@ -524,7 +524,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								if (answer == "Y")
 								{
 									system("cls");
-									c_tmp_prev->right = NULL;
+									c_tmp_prev->right = nullptr;
 									*end = c_tmp_prev;
 									delete(c_tmp);
 									return 0;
@@ -545,11 +545,11 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							c_tmp_prev->right = c_tmp->next;
 							c_tmp = c_tmp->next;
-							c_tmp->prev->next = NULL;
+							c_tmp->prev->next = nullptr;
 							delete(c_tmp->prev);
-							c_tmp->prev = NULL;
+							c_tmp->prev = nullptr;
 							*end = c_tmp;
-							while (c_tmp != NULL)
+							while (c_tmp != nullptr)
 							{
 								c_tmp->Num--;
 								c_tmp = c_tmp->next;
@@ -565,7 +565,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							c_tmp_prev = c_tmp_prev->right;
 						}
-						if (c_tmp->next == NULL)
+						if (c_tmp->next == nullptr)
 						{
 							while (true)
 							{
@@ -579,7 +579,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 								{
 									system("cls");
 									c_tmp_prev->right = c_tmp->right;
-									c_tmp->right = NULL;
+									c_tmp->right = nullptr;
 									delete(c_tmp);
 									return 0;
 								}
@@ -599,12 +599,12 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							c_tmp_prev->right = c_tmp->next;
 							c_tmp->next->right = c_tmp->right;
-							c_tmp->right = NULL;
-							c_tmp->next->prev = NULL;
-							c_tmp->next = NULL;
+							c_tmp->right = nullptr;
+							c_tmp->next->prev = nullptr;
+							c_tmp->next = nullptr;
 							delete(c_tmp);
 							c_tmp = c_tmp_prev->right;
-							while (c_tmp != NULL)
+							while (c_tmp != nullptr)
 							{
 								c_tmp->Num--;
 								c_tmp = c_tmp->next;
@@ -620,12 +620,12 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 							c_tmp_prev = c_tmp_prev->right;
 						}
 						c_tmp_prev->next = c_tmp->next;
-						c_tmp->next = NULL;
+						c_tmp->next = nullptr;
 						c_tmp_prev->next->prev = c_tmp->prev;
-						c_tmp->prev = NULL;
+						c_tmp->prev = nullptr;
 						delete(c_tmp);
 						c_tmp = c_tmp_prev->next;
-						while (c_tmp != NULL)
+						while (c_tmp != nullptr)
 						{
 							c_tmp->Num--;
 							c_tmp = c_tmp->next;
@@ -665,7 +665,7 @@ int search_rec(std::string Table_name, Str_Num **start, Str_Num **end, std::stri
 		{
 			while (true)
 			{
-				if (c == NULL)
+				if (c == nullptr)
 				{
 					if (flag)
 					{
@@ -707,14 +707,17 @@ int search_rec(std::string Table_name, Str_Num **start, Str_Num **end, std::stri
 		}
 	}
 }
-int join_table(std::string Table_name_1, std::string Table_name_2, std::string Table_name_new, Str_Num **start, Str_Num **end)
+int join_table(std::string Table_name_1, std::string Table_name_2, std::string Table_name_new, Str_Num **start, Str_Num **end)//name1!=name2
 {
 	Str_Num* table_1 = new Str_Num();
 	Str_Num* table_2 = new Str_Num();
 	Str_Num* table_tmp = new Str_Num();
+	Str_Num* table_tmp_tmp = new Str_Num();
 	table_1 = *start;
 	table_2 = *start;
 	table_tmp = *start;
+	table_tmp_tmp = *start;
+	std::string answer="";
 	while (true)
 	{
 		if(table_1->Table_name != Table_name_1 && table_1 == *end)
@@ -733,17 +736,213 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 				{
 					while (true)
 					{
-						if (table_tmp->Table_name != Table_name_2 && table_tmp == *end)
+						if (table_tmp->Table_name != Table_name_new && table_tmp == *end)
 						{
-							
+							table_tmp = *start;
+							table_tmp_tmp = *start;
+							if (table_tmp->Table_name == Table_name_1)
+							{
+								*start = (*start)->right;
+								table_1->right = nullptr;
+								if (table_1 == *end)
+								{
+									*end = *start;
+								}
+							}
+							else
+							{
+								while (table_tmp->right->Table_name != Table_name_1)
+								{
+									table_tmp = table_tmp->right;
+								}
+								if (table_1 == *end)
+								{
+									*end = table_tmp;
+								}
+								table_tmp->right = table_tmp->right->right;
+								table_1->right = nullptr;
+							}
+							if (table_tmp_tmp->Table_name == Table_name_2)
+							{
+								*start = (*start)->right;
+								table_2->right = nullptr;
+								if (table_2 == *end)
+								{
+									*end = *start;
+								}
+							}
+							else
+							{
+								while (table_tmp_tmp->right->Table_name != Table_name_2)
+								{
+									table_tmp_tmp = table_tmp_tmp->right;
+								}
+								if (table_2 == *end)
+								{
+									*end = table_tmp_tmp;
+								}
+								table_tmp_tmp->right = table_tmp_tmp->right->right;
+								table_2->right = nullptr;
+							}
+							if ((*start)==nullptr)
+							{
+								*start = table_1;
+								*end = table_1;
+								table_tmp = table_1;
+								while (table_tmp->next!=nullptr)
+								{
+									table_tmp->Table_name = Table_name_new;
+									table_tmp = table_tmp->next;
+								}
+								table_2->prev = table_tmp;
+								table_tmp->next = table_2;
+								while (table_tmp->next != nullptr)
+								{
+									table_tmp->Table_name = Table_name_new;
+									table_tmp->Num = table_tmp->prev->Num + 1;
+									table_tmp = table_tmp->next;
+								}
+							}
+							else
+							{
+								(*end)->right = table_1;
+								*end = (*end)->right;
+								table_tmp = table_1;
+								while (table_tmp->next != nullptr)
+								{
+									table_tmp->Table_name = Table_name_new;
+									table_tmp = table_tmp->next;
+								}
+								table_2->prev = table_tmp;
+								table_tmp->next = table_2;
+								while (table_tmp->next != nullptr)
+								{
+									table_tmp->Table_name = Table_name_new;
+									table_tmp->Num = table_tmp->prev->Num + 1;
+									table_tmp = table_tmp->next;
+								}
+							}
 						}
-						else if (table_tmp->Table_name == Table_name_2)
+						else if (table_tmp->Table_name == Table_name_new)
 						{
-							
+							while (true)
+							{
+								std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl;
+								std::cin >> answer;
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								if (answer == "Y")
+								{
+									if (table_tmp==table_1)
+									{
+										if ((*start)->Table_name== Table_name_2)
+										{
+											*start = (*start)->right;
+											table_2->right = nullptr;
+											while (table_tmp->next!=nullptr)
+											{
+												table_tmp = table_tmp->next;
+											}
+											table_tmp->next = table_2;
+											table_2->prev = table_tmp;
+											table_tmp = table_tmp->next;
+											while (table_tmp != nullptr)
+											{
+												table_tmp->Num = table_tmp->prev->Num + 1;
+												table_tmp->Table_name = table_tmp->prev->Table_name;
+											}
+										}
+										else
+										{
+											while (table_tmp_tmp->right->Table_name!= Table_name_2)
+											{
+												table_tmp_tmp = table_tmp_tmp->right;
+											}
+											if (table_2==*end)
+											{
+												*end = table_tmp_tmp;
+											}
+											table_tmp_tmp->right = table_tmp_tmp->right->right;
+											table_2->right = nullptr;
+											while (table_tmp->next != nullptr)
+											{
+												table_tmp = table_tmp->next;
+											}
+											table_tmp->next = table_2;
+											table_2->prev = table_tmp;
+											table_tmp = table_tmp->next;
+											while (table_tmp != nullptr)
+											{
+												table_tmp->Num = table_tmp->prev->Num + 1;
+												table_tmp->Table_name = table_tmp->prev->Table_name;
+											}
+										}
+									}
+									else
+									{
+										if ((*start)->Table_name == Table_name_1)
+										{
+											*start = (*start)->right;
+											table_1->right = nullptr;
+											while (table_tmp->next != nullptr)
+											{
+												table_tmp = table_tmp->next;
+											}
+											table_tmp->next = table_1;
+											table_1->prev = table_tmp;
+											table_tmp = table_tmp->next;
+											while (table_tmp != nullptr)
+											{
+												table_tmp->Num = table_tmp->prev->Num + 1;
+												table_tmp->Table_name = table_tmp->prev->Table_name;
+											}
+										}
+										else
+										{
+											while (table_tmp_tmp->right->Table_name != Table_name_1)
+											{
+												table_tmp_tmp = table_tmp_tmp->right;
+											}
+											if (table_1 == *end)
+											{
+												*end = table_tmp_tmp;
+											}
+											table_tmp_tmp->right = table_tmp_tmp->right->right;
+											table_1->right = nullptr;
+											while (table_tmp->next != nullptr)
+											{
+												table_tmp = table_tmp->next;
+											}
+											table_tmp->next = table_1;
+											table_1->prev = table_tmp;
+											table_tmp = table_tmp->next;
+											while (table_tmp != nullptr)
+											{
+												table_tmp->Num = table_tmp->prev->Num + 1;
+												table_tmp->Table_name = table_tmp->prev->Table_name;
+											}
+										}
+									}
+									system("cls");
+									return 0;
+								}
+								else if (answer == "N")
+								{
+									system("cls");
+									return 0;
+								}
+								else
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+								}
+							}
 						}
 						else
 						{
-							table_tmp = table_2->right;
+							table_tmp = table_tmp->right;
 						}
 					}
 				}
@@ -762,7 +961,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 }
 //GG
 int main() {
-	Str_Num *start_tables = NULL, *end_tables = NULL, *tmp_tables = NULL;
+	Str_Num *start_tables = nullptr, *end_tables = nullptr, *tmp_tables = nullptr;
 	end_tables = start_tables;
 	std::string name_table = "";
 	std::string name_file = "";
@@ -807,7 +1006,7 @@ int main() {
 					}
 					else
 					{
-						if (tmp_tables == NULL)
+						if (tmp_tables == nullptr)
 						{
 							create_table(name_file, name_table, &start_tables, &end_tables);
 							system("cls");
@@ -859,7 +1058,7 @@ int main() {
 		}
 		else if (a == "delete")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -940,7 +1139,7 @@ int main() {
 		}
 		else if (a == "sort")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -1019,7 +1218,7 @@ int main() {
 		}
 		else if (a == "delrec")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -1083,7 +1282,7 @@ int main() {
 		}
 		else if (a == "search")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -1167,7 +1366,7 @@ int main() {
 		}
 		else if (a == "join")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -1183,7 +1382,7 @@ int main() {
 		}
 		else if (a == "save")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
@@ -1198,7 +1397,7 @@ int main() {
 		}
 		else if (a == "write")
 		{
-			if (start_tables == NULL)
+			if (start_tables == nullptr)
 			{
 				while (std::cin.peek() != '\n')
 				{
