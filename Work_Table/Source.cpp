@@ -734,8 +734,10 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 				}
 				else if (table_2->Table_name == Table_name_2)
 				{
+					table_tmp = *start;
 					while (true)
 					{
+						
 						if (table_tmp->Table_name != Table_name_new && table_tmp == *end)
 						{
 							table_tmp = *start;
@@ -762,6 +764,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 								table_tmp->right = table_tmp->right->right;
 								table_1->right = nullptr;
 							}
+							table_tmp_tmp = *start;
 							if (table_tmp_tmp->Table_name == Table_name_2)
 							{
 								*start = (*start)->right;
@@ -796,12 +799,15 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 								}
 								table_2->prev = table_tmp;
 								table_tmp->next = table_2;
-								while (table_tmp->next != nullptr)
+								table_tmp = table_tmp->next;
+								while (table_tmp != nullptr)
 								{
 									table_tmp->Table_name = Table_name_new;
 									table_tmp->Num = table_tmp->prev->Num + 1;
 									table_tmp = table_tmp->next;
 								}
+								system("cls");
+								return 0;
 							}
 							else
 							{
@@ -821,7 +827,10 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 									table_tmp->Num = table_tmp->prev->Num + 1;
 									table_tmp = table_tmp->next;
 								}
+								system("cls");
+								return 0;
 							}
+
 						}
 						else if (table_tmp->Table_name == Table_name_new)
 						{
@@ -959,11 +968,15 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 
 	}
 }
+
 //GG
 int main() {
 	Str_Num *start_tables = nullptr, *end_tables = nullptr, *tmp_tables = nullptr;
 	end_tables = start_tables;
 	std::string name_table = "";
+	std::string name_table_1 = "";
+	std::string name_table_2 = "";
+	std::string name_table_new = "";
 	std::string name_file = "";
 	std::string a = "";
 	int error_ID;
@@ -1377,7 +1390,68 @@ int main() {
 			}
 			else
 			{
-
+				if (std::cin.peek() == '\n')
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+				}
+				else
+				{
+					std::cin >> name_table_1;
+					answer = "";
+					if (std::cin.peek() == '\n')
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+					}
+					else
+					{
+						std::cin >> name_table_2;
+						answer = "";
+						if (std::cin.peek() == '\n')
+						{
+							system("cls");
+							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+						}
+						else
+						{
+							std::cin >> name_table_new;
+							answer = "";
+							while (std::cin.peek() != '\n')
+							{
+								std::cin >> answer;
+							}
+							if (answer != "")
+							{
+								system("cls");
+								std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+							}
+							else
+							{
+								if (name_table_1 == name_table_2)
+								{
+									system("cls");
+									std::cout << "Error" << std::endl << "Only different tables can be combined" << std::endl;
+								}
+								else
+								{
+									if (join_table(name_table_1, name_table_2, name_table_new, &start_tables, &end_tables))
+									{
+										system("cls");
+										std::cout << "A table with that name does not exist";
+										break;
+									}
+									else
+									{
+										system("cls");
+										break;
+									}
+									system("cls");
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		else if (a == "save")
@@ -1393,6 +1467,7 @@ int main() {
 			}
 			else
 			{
+
 			}
 		}
 		else if (a == "write")
@@ -1408,6 +1483,23 @@ int main() {
 			}
 			else
 			{
+
+			}
+		}
+		else if (a == "show")
+		{
+			if (start_tables == nullptr)
+			{
+				while (std::cin.peek() != '\n')
+				{
+					std::cin >> answer;
+				}
+				system("cls");
+				std::cout << "First create at least one table" << std::endl;
+			}
+			else
+			{
+
 			}
 		}
 		else if (a == "exit")
