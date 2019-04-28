@@ -792,7 +792,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 								*start = table_1;
 								*end = table_1;
 								table_tmp = table_1;
-								while (table_tmp->next!=nullptr)
+								while (table_tmp->next != nullptr)
 								{
 									table_tmp->Table_name = Table_name_new;
 									table_tmp = table_tmp->next;
