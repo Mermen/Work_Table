@@ -861,6 +861,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 											{
 												table_tmp->Num = table_tmp->prev->Num + 1;
 												table_tmp->Table_name = table_tmp->prev->Table_name;
+												table_tmp = table_tmp->next;
 											}
 										}
 										else
@@ -886,6 +887,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 											{
 												table_tmp->Num = table_tmp->prev->Num + 1;
 												table_tmp->Table_name = table_tmp->prev->Table_name;
+												table_tmp = table_tmp->next;
 											}
 										}
 									}
@@ -906,6 +908,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 											{
 												table_tmp->Num = table_tmp->prev->Num + 1;
 												table_tmp->Table_name = table_tmp->prev->Table_name;
+												table_tmp = table_tmp->next;
 											}
 										}
 										else
@@ -931,6 +934,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 											{
 												table_tmp->Num = table_tmp->prev->Num + 1;
 												table_tmp->Table_name = table_tmp->prev->Table_name;
+												table_tmp = table_tmp->next;
 											}
 										}
 									}
@@ -968,7 +972,56 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 
 	}
 }
+int save_table(std::string file_name, std::string Table_name, Str_Num** start, Str_Num** end)
+{
+	file_name.push_back('.');
+	file_name.push_back('t');
+	file_name.push_back('x');
+	file_name.push_back('t');
+	const char* name = file_name.c_str();
+	std::ofstream fout(name);
+	Str_Num* c = new Str_Num();
+	c = *start;
 
+	while (1)
+	{
+		if (c->Table_name != Table_name && c == *end)
+		{
+			return 1;
+		}
+		 else if (c->Table_name == Table_name)
+		{
+			std::ofstream fout(name);
+			while (c != nullptr)
+			{
+				fout << c->Num<<" ";
+				for (int i = 1; i <= 7; i++)
+				{
+					fout << return_Str_Num(c, i);
+					if (i!=7)
+					{
+						fout << " ";
+					} 
+				}
+				if (c->next!=nullptr)
+				{
+					fout << std::endl;
+				}
+				c = c->next;
+			}
+			fout.close();
+			return 0;
+		}
+		 else
+		{
+			c = c->right;
+		}
+	}
+}
+int write_in_table(std::string Table_name, Str_Num** start, Str_Num** end, int num, int n_field)
+{
+	return 0;
+}
 //GG
 int main() {
 	Str_Num *start_tables = nullptr, *end_tables = nullptr, *tmp_tables = nullptr;
@@ -979,10 +1032,9 @@ int main() {
 	std::string name_table_new = "";
 	std::string name_file = "";
 	std::string a = "";
-	int error_ID;
 	std::string answer = "";
-	std::string namber_field = "";
-	int namber_rec = 0;
+	std::string number_field = "";
+	int number_rec = 0;
 	int ERROR = 0;
 	std::string letter="";
 	while (true)
@@ -1178,9 +1230,13 @@ int main() {
 					}
 					else
 					{
-						std::cin >> namber_field;
-						if (!("1" <= namber_field && namber_field <= "4"))
+						std::cin >> number_field;
+						if (!("1" <= number_field && number_field <= "4")||number_field.size()>1)
 						{
+							while (std::cin.peek() != '\n')
+							{
+								std::cin >> answer;
+							}
 							system("cls");
 							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
 						}
@@ -1199,22 +1255,22 @@ int main() {
 							}
 							else
 							{
-								int namber = namber_field[0] - '0';
-								switch (namber)
+								int number = number_field[0] - '0';
+								switch (number)
 								{
 								case 3: {
-									namber = 5;
+									number = 5;
 									break;
 								}
 								case 4: {
-									namber = 7;
+									number = 7;
 									break;
 								}
 								default: {
 									break;
 								}
 								}
-								if (sort_table(name_table, &start_tables, &end_tables, namber))
+								if (sort_table(name_table, &start_tables, &end_tables, number))
 								{
 									system("cls");
 									std::cout << "A table with that name does not exist";
@@ -1240,7 +1296,8 @@ int main() {
 				system("cls");
 				std::cout << "First create at least one table" << std::endl;
 			}
-			else {
+			else 
+			{
 				if (std::cin.peek() == '\n')
 				{
 					system("cls");
@@ -1256,7 +1313,7 @@ int main() {
 					}
 					else
 					{
-						std::cin >> namber_rec;
+						std::cin >> number_rec;
 						answer = "";
 						while (std::cin.peek() != '\n')
 						{
@@ -1270,7 +1327,7 @@ int main() {
 						}
 						else
 						{
-							if (ERROR = del_rec(name_table, &start_tables, &end_tables, namber_rec))
+							if (ERROR = del_rec(name_table, &start_tables, &end_tables, number_rec))
 							{
 								switch (ERROR)
 								{
@@ -1322,9 +1379,13 @@ int main() {
 					}
 					else
 					{
-						std::cin >> namber_field;
-						if (!("1" <= namber_field && namber_field <= "7"))
+						std::cin >> number_field;
+						if (!("1" <= number_field && number_field <= "7") || number_field.size() > 1)
 						{
+							while (std::cin.peek() != '\n')
+							{
+								std::cin >> answer;
+							}
 							system("cls");
 							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
 						}
@@ -1350,8 +1411,8 @@ int main() {
 								}
 								else
 								{
-									int namber = namber_field[0] - '0';
-									if (ERROR = search_rec(name_table, &start_tables, &end_tables, letter, namber))
+									int number = number_field[0] - '0';
+									if (ERROR = search_rec(name_table, &start_tables, &end_tables, letter, number))
 									{
 										switch (ERROR)
 										{
@@ -1439,12 +1500,12 @@ int main() {
 									{
 										system("cls");
 										std::cout << "A table with that name does not exist";
-										break;
+										
 									}
 									else
 									{
 										system("cls");
-										break;
+										
 									}
 									system("cls");
 								}
@@ -1467,7 +1528,48 @@ int main() {
 			}
 			else
 			{
+				if (std::cin.peek() == '\n')
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+				}
+				else
+				{
+					std::cin >> name_table;
+					answer = "";
+					if (std::cin.peek() == '\n')
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+					}
+					else
+					{
+						std::cin >> name_file;
+						answer = "";
+						while (std::cin.peek() != '\n')
+						{
+							std::cin >> answer;
+						}
+						if (answer != "")
+						{
+							system("cls");
+							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
 
+						}
+						else
+						{
+							if (save_table(name_file,name_table,&start_tables,&end_tables))
+							{
+								system("cls");
+								std::cout << "A table with that name does not exist" << std::endl;
+							}
+							else
+							{
+								system("cls");
+							}
+						}
+					}
+				}
 			}
 		}
 		else if (a == "write")
@@ -1483,7 +1585,67 @@ int main() {
 			}
 			else
 			{
+				if (std::cin.peek() == '\n')
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+				}
+				else
+				{
+					std::cin >> name_table;
+					if (std::cin.peek() == '\n')
+					{
+						system("cls");
+						std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+					}
+					else
+					{
+						std::cin >> number_rec;
+						if (std::cin.peek()!=' ')
+						{
+							while (std::cin.peek() != '\n')
+							{
+								std::cin >> answer;
+							}
+							system("cls");
+							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+						}
+						if (std::cin.peek() == '\n')
+						{
+							system("cls");
+							std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+						}
+						else
+						{
+							std::cin >> number_field;
+							if (!("1" <= number_field && number_field <= "7") || number_field.size() > 1)
+							{
+								while (std::cin.peek() != '\n')
+								{
+									std::cin >> answer;
+								}
+								system("cls");
+								std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+							}
+							else
+							{
+								if (std::cin.peek() != '\n')
+								{
+									while (std::cin.peek() != '\n')
+									{
+										std::cin >> answer;
+									}
+									system("cls");
+									std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
+								}
+								else
+								{
 
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		else if (a == "show")
@@ -1499,7 +1661,28 @@ int main() {
 			}
 			else
 			{
+				answer = "";
+				while (std::cin.peek() != '\n')
+				{
+					std::cin >> answer;
+				}
+				if (answer != "")
+				{
+					system("cls");
+					std::cout << "Error" << std::endl << "Try typing the command again" << std::endl;
 
+				}
+				else
+				{
+					std::cout << std::endl;
+					tmp_tables = start_tables;
+					while (tmp_tables != nullptr)
+					{
+						std::cout << tmp_tables->Table_name;
+						tmp_tables = tmp_tables->right;
+						std::cout << std::endl;
+					}
+				}
 			}
 		}
 		else if (a == "exit")
