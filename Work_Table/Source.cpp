@@ -1,5 +1,4 @@
-﻿//test
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <stdio.h>
 #include <string>
 #include <iostream>
@@ -1020,6 +1019,124 @@ int save_table(std::string file_name, std::string Table_name, Str_Num** start, S
 }
 int write_in_table(std::string Table_name, Str_Num** start, Str_Num** end, int num, int n_field)
 {
+	Str_Num* c = new Str_Num();
+	c = *start;
+	std::string messаge_p;
+	std::string answer = "";
+	while (1)
+	{
+		if (c->Table_name != Table_name && c == *end)
+		{
+			return 1;
+		}
+		else if (c->Table_name == Table_name)
+		{
+			while (true)
+			{
+
+				if (c->Num != num && c->next == nullptr)
+				{
+					return 2;
+				}
+				else if (c->Num == num)
+				{
+					if (n_field == 1 || n_field == 5 || n_field == 6 || n_field == 7)
+					{
+						system("cls");
+						std::cout << "Can enter only a number" << std::endl;
+						std::cin >> messаge_p;
+						answer = "";
+						while (std::cin.peek() != '\n')
+						{
+							std::cin >> answer;
+						}
+						if (answer != "")
+						{
+							return 3;
+						}
+						else
+						{
+							for (int i = 0; i < messаge_p.size(); i++)
+							{
+								if (!('0' <= messаge_p[i] && messаge_p[i] <= '9'))
+								{
+									return 3;
+								}
+							}
+							switch (n_field)
+							{
+							case 1: {
+								c->ID = messаge_p;
+								return 0;
+							}
+							case 5: {
+								c->year = messаge_p;
+								return 0;
+							}
+							case 6: {
+								c->pasport = messаge_p;
+								return 0;
+							}
+							case 7: {
+								c->money = messаge_p;
+								return 0;
+							}
+							}
+						}
+					}
+					else
+					{
+						system("cls");
+						std::cout << "Can enter only a word" << std::endl;
+						std::cin >> messаge_p;
+						answer = "";
+						while (std::cin.peek() != '\n')
+						{
+							std::cin >> answer;
+						}
+						if (answer != "")
+						{
+							return 3;
+						}
+						else
+						{
+							for (int i = 0; i < messаge_p.size(); i++)
+							{
+								if ('0' <= messаge_p[i] && messаge_p[i] <= '9')
+								{
+									return 3;
+								}
+							}
+							switch (n_field)
+							{
+							case 2: {
+								c->surname = messаge_p;
+								return 0;
+							}
+							case 3: {
+								c->name = messаge_p;
+								return 0;
+							}
+							case 4: {
+								c->second_name = messаge_p;
+								return 0;
+							}
+							}
+						}
+					}
+				}
+				else
+				{
+					c = c->next;
+				}
+			}
+
+		}
+		else
+		{
+			c = c->right;
+		}
+	}
 	return 0;
 }
 //GG
@@ -1640,7 +1757,31 @@ int main() {
 								}
 								else
 								{
-
+									if (ERROR=write_in_table(name_table,&start_tables,&end_tables,number_rec,number_field[0]-'0'))
+									{
+										switch (ERROR)
+										{
+										case 1:
+										{
+											system("cls");
+											std::cout << "A table with that name does not exist" << std::endl;
+										}
+										case 2:
+										{
+											system("cls");
+											std::cout << "A record with that name does not exist" << std::endl;
+										}
+										case 3:
+										{
+											system("cls");
+											std::cout << "Invalid new entry format" << std::endl;
+										}
+										}
+									}
+									else
+									{
+										system("cls");
+									}
 								}
 							}
 						}
