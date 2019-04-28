@@ -449,7 +449,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							while (true)
 							{
-								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl<< "Y or N" << std::endl;
 								std::cin >> answer;
 								while (std::cin.peek() != '\n')
 								{
@@ -514,7 +514,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							while (true)
 							{
-								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Y or N" << std::endl;
 								std::cin >> answer;
 								while (std::cin.peek() != '\n')
 								{
@@ -568,7 +568,7 @@ int del_rec(std::string Table_name, Str_Num **start, Str_Num **end, int n) {
 						{
 							while (true)
 							{
-								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Print \"Y\" or \"N\"";
+								std::cout << "This will delete the table: " << c_tmp->Table_name << std::endl << "Y or N" << std::endl;
 								std::cin >> answer;
 								while (std::cin.peek() != '\n')
 								{
@@ -835,7 +835,7 @@ int join_table(std::string Table_name_1, std::string Table_name_2, std::string T
 						{
 							while (true)
 							{
-								std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl;
+								std::cout << "The table with the same name exists." << std::endl << "Remove the current table and write a new one?" << std::endl << "Y or N" << std::endl;
 								std::cin >> answer;
 								while (std::cin.peek() != '\n')
 								{
@@ -1284,7 +1284,7 @@ int main() {
 						{
 							while (true)
 							{
-								std::cout << "Are you sure you want to delete the table?" << std::endl;
+								std::cout << "Are you sure you want to delete the table?" << std::endl << "Y or N" << std::endl;
 								std::cin >> answer;
 								while (std::cin.peek() != '\n')
 								{
@@ -1311,7 +1311,7 @@ int main() {
 								else
 								{
 									system("cls");
-									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl;
+									std::cout << "Error" << std::endl << "Try typing the answer again" << std::endl<<"Y or N" << std::endl;
 								}
 							}
 						}
