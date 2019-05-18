@@ -26,5 +26,20 @@
     <Text Include="Text1.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="Text2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Text3.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Text4.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Text5.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Text6.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

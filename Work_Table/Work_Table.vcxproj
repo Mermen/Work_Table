@@ -120,6 +120,11 @@
   <ItemGroup>
     <Text Include="Text.txt" />
     <Text Include="Text1.txt" />
+    <Text Include="Text2.txt" />
+    <Text Include="Text3.txt" />
+    <Text Include="Text4.txt" />
+    <Text Include="Text5.txt" />
+    <Text Include="Text6.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
